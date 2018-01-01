@@ -2,15 +2,22 @@ import discord
 from discord.ext import commands
 import json
 import asyncio
+import sys
+from io import StringIO
 
 cogs = [
     'cogs.config',
     'cogs.mod',
     'cogs.cr',
-    'cogs.brawlstars'
+    'cogs.brawlstars',
+    'cogs.tictactoe'
     
 ]
 token = open('/Users/moommen/Desktop/token.txt').read()
+owner = 299357465236078592
+
+def is_owner():
+    return commands.check(lambda ctx: ctx.message.author.id == owner)
 
 async def get_pre(bot, message):
     with open('settings/config.json') as f:
@@ -96,6 +103,28 @@ async def ping(ctx):
     em.description = '{0:.3f}'.format(bot.latency * 1000) + ' ms'
     await ctx.channel.send(embed=em)
 
+
+def cleanup_code(content):
+    '''Automatically removes code blocks from the code.'''
+    # remove ```py\n```
+    if content.startswith('```') and content.endswith('```'):
+        return content.replace('```','')
+
+    return content
+
+@is_owner()
+@bot.command(name='eval')
+async def _eval(ctx,*,code: str):
+    old_stdout = sys.stdout
+    redirected_output = sys.stdout = StringIO()
+    code = cleanup_code(code)
+    try:
+        exec(code)
+        sys.stdout = old_stdout
+        await ctx.channel.send('```{}```'.format(redirected_output.getvalue()))
+    except Exception as e:
+        await ctx.channel.send('```{}```'.format(str(e)))
+    
 
 
 if __name__ == "__main__":

@@ -55,6 +55,9 @@ class BrawlStars:
                     vals.append(val.text)
             val = soup.find('div', attrs = {'class': x}).text
             vals.append(val)
+        img = soup.find('img', attrs = {'class':'mr-2'})
+        img_link = img['src']
+        vals.append(img_link)
         return vals
 
 

@@ -6,7 +6,8 @@ import asyncio
 cogs = [
     'cogs.config',
     'cogs.mod',
-    'cogs.cr'
+    'cogs.cr',
+    'cogs.brawlstars'
     
 ]
 token = open('/Users/moommen/Desktop/token.txt').read()
@@ -72,6 +73,19 @@ async def on_command_error(ctx, error):
         await ctx.channel.send(f'Your are missing the the parameter <{error.param}>')
     elif isinstance(error, commands.DisabledCommand):
         await ctx.channel.send('This command is disabled')
+
+@bot.command(name='bot')
+async def bot_info(ctx):
+    ''' Gives information about the bot '''
+    em = discord.Embed()
+    em.title = '**CuckooBot**'
+    em.description = 'A discord bot for moderation. Still in development'
+    em.add_field(name='Servers', value=str(len(bot.guilds)))
+    em.add_field(name='Creator', value='Epsilon#0036')
+    em.add_field(name='Source', value='[GitHub](https://github.com/Epsilon10/CuckooBot)')
+    em.add_field(name='Invite', value='[Bot Invite](https://discordapp.com/oauth2/authorize?client_id=396664054921428992&scope=bot)')
+    em.add_field(name='Created On', value='December 30th 4:02 pm')
+    await ctx.channel.send(embed = em)
 
 @bot.command()
 async def ping(ctx):

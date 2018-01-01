@@ -9,6 +9,7 @@ cogs = [
     'cogs.cr'
     
 ]
+token = open('/Users/moommen/Desktop/token.txt').read()
 
 async def get_pre(bot, message):
     with open('settings/config.json') as f:
@@ -81,6 +82,8 @@ async def ping(ctx):
     em.description = '{0:.3f}'.format(bot.latency * 1000) + ' ms'
     await ctx.channel.send(embed=em)
 
+
+
 if __name__ == "__main__":
     for cog in cogs:
         try:
@@ -90,7 +93,7 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(cog, exc))
 
-bot.run('Mzk2NjY0MDU0OTIxNDI4OTky.DSkttg.wjN181r_V4jgBDba4MnmBGNs13c', bot=bot)
+bot.run(str(token), bot=bot)
 
 
 

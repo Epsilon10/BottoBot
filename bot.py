@@ -37,7 +37,7 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    with open('config/settings.json') as f:
+    with open('settings/config.json') as f:
         data = json.load(f)
     try:
         msg = data[str(ctx.guild.id)]['welcome msg']

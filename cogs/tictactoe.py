@@ -29,7 +29,7 @@ class TicTacToe:
                 rex = re.compile('[0-3][\,][0-3]')
                 if rex.match(m.content):
                     return True
-                if m.content is not None and m.author != self.bot.user and m.channel == chan:
+                if m.content is not None and m.author == p1:
                     try:
                         print('bad ' + m.content)
                         loop.create_task(self.fail(ctx))
@@ -54,8 +54,22 @@ class TicTacToe:
             await prev_board.edit(content=f'```{board}```')
 
             await ctx.channel.send(f'{p2.mention} if is your turn.', delete_after=1.0)
+            def check_2(m):
+                print('Check')
+                loop = asyncio.get_event_loop()
+                rex = re.compile('[0-3][\,][0-3]')
+                if rex.match(m.content):
+                    return True
+                if m.content is not None and m.author == p2:
+                    try:
+                        print('bad ' + m.content)
+                        loop.create_task(self.fail(ctx))
+                    except Exception as e:
+                        print('bad: '+m.content)
+                        print(str(e))
+                return False
             try:
-                msg = await self.bot.wait_for('message', timeout=15.0, check=check)
+                msg = await self.bot.wait_for('message', timeout=15.0, check=check_2)
                 msg_stuff = msg.content.split(',')
                 await msg.delete()
                 move = [int(msg_stuff[1])-1,int(msg_stuff[0])-1]

@@ -13,7 +13,8 @@ cogs = [
     'cogs.tictactoe'
     
 ]
-token = open('/Users/moommen/Desktop/token.txt').read()
+token = open('settings/token.txt').read()
+print(token)
 owner = 299357465236078592
 
 def is_owner():
